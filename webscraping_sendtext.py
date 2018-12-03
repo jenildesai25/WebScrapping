@@ -1,11 +1,11 @@
 #Online References used :
-
 #https://github.com/imadmali/movie-scraper/blob/master/MojoLinkExtract.py
 #https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 #https://nycdatascience.com/blog/student-works/scraping-box-office-mojo/
 #https://www.youtube.com/watch?v=XQgXKtPSzUI
 # https://www.youtube.com/watch?v=aIPqt-OdmS0
 #https://www.youtube.com/watch?v=XQgXKtPSzUI
+
 from bs4 import BeautifulSoup
 import pandas as pd
 import os
@@ -52,7 +52,7 @@ class WebScrapping:
             try:
                 url = 'https://www.boxofficemojo.com/yearly/chart/?page={}&view=releasedate&view2=domestic&yr={}&p=.htm'.format(
                     num, user_input)  # This one works well
-                print("Page number {} for the year{}".format(num, user_input))
+                print("Page number {} for the year {}".format(num, user_input))
                 #Get the Response
                 response_from_url = requests.get(url)
                 html = response_from_url.text
@@ -127,7 +127,18 @@ class WebScrapping:
         print("The Average Total Gross Earnings for the year {} is {}".format(user_input, avg_total_gross_earnings))
         print("The Movie that was shown in the most theaters was '{}' with {} theaters".format(max_number_theatres,
                                                                                                total_theatres_max))
+
 if __name__ == '__main__':
     user_input = input('What is the year that you are interested in getting data:')
-    url = 'https://www.boxofficemojo.com/yearly/chart/?page=1&view=releasedate&view2=domestic&yr=' + user_input + '&p=.htm'
-    web_scrapping_object = WebScrapping(url=url, user_input=user_input)
+    try:
+        year = int(user_input)
+    except:
+        print("You must enter a valid value")
+        exit()
+
+    if not 1980 <= year <= 2018:
+        print("You must enter in a an integer between 1980 and 2018.")
+        exit()
+
+    url = 'https://www.boxofficemojo.com/yearly/chart/?page=1&view=releasedate&view2=domestic&yr=' + str(year) + '&p=.htm'
+    web_scrapping_object = WebScrapping(url=url, user_input=str(year))
